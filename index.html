@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Sulakshya Misra | Quantitative Analyst & Data Scientist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+/* ===== RESET & BASE ===== */
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#050810;
+  --bg2:#080d1a;
+  --surface:rgba(255,255,255,0.04);
+  --surface2:rgba(255,255,255,0.07);
+  --border:rgba(255,255,255,0.08);
+  --blue:#00c8ff;
+  --blue2:#0072ff;
+  --red:#ff2d55;
+  --red2:#c0002b;
+  --text:#e8eaf6;
+  --muted:#8892a4;
+  --card-glow-blue:rgba(0,200,255,0.12);
+  --card-glow-red:rgba(255,45,85,0.12);
+  --ff-display:'Rajdhani',sans-serif;
+  --ff-body:'Outfit',sans-serif;
+  --ff-mono:'JetBrains Mono',monospace;
+  --scroll-progress:0%;
+}
+html{scroll-behavior:smooth;overflow-x:hidden;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--ff-body);
+  font-size:16px;
+  line-height:1.7;
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* ===== CURSOR ===== */
+#cursor{position:fixed;width:10px;height:10px;background:var(--blue);border-radius:50%;pointer-events:none;z-index:10000;transform:translate(-50%,-50%);transition:transform .1s,opacity .2s;mix-blend-mode:difference;}
+#cursor-ring{position:fixed;width:36px;height:36px;border:1.5px solid rgba(0,200,255,0.5);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .15s ease,width .2s,height .2s,opacity .3s;}
+body:hover #cursor{opacity:1;}
+
+/* ===== SCROLL PROGRESS ===== */
+#progress-bar{position:fixed;top:0;left:0;height:2px;width:var(--scroll-progress);background:linear-gradient(90deg,var(--blue),var(--red));z-index:9999;transition:width .1s linear;}
+
+/* ===== MOUSE GLOW ===== */
+#mouse-glow{position:fixed;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(0,200,255,0.05) 0%,transparent 70%);pointer-events:none;z-index:1;transform:translate(-50%,-50%);transition:transform .3s ease;}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--blue),var(--red));border-radius:2px;}
+
+/* ===== NAVBAR ===== */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  padding:0 5%;
+  display:flex;align-items:center;justify-content:space-between;
+  height:66px;
+  background:rgba(5,8,16,0.6);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  transition:all .3s ease;
+}
+nav.scrolled{background:rgba(5,8,16,0.9);}
+.logo{
+  font-family:var(--ff-display);
+  font-size:1.5rem;
+  font-weight:700;
+  letter-spacing:2px;
+  background:linear-gradient(135deg,var(--blue),var(--red));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{
+  color:var(--muted);
+  text-decoration:none;
+  font-family:var(--ff-mono);
+  font-size:.8rem;
+  letter-spacing:1px;
+  transition:color .3s;
+  position:relative;
+}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--blue);transition:width .3s;}
+.nav-links a:hover,.nav-links a.active{color:var(--blue);}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%;}
+
+/* HAMBURGER */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+.hamburger span{display:block;width:24px;height:2px;background:var(--text);transition:.3s;}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+.mobile-menu{
+  display:none;position:fixed;top:66px;left:0;right:0;z-index:999;
+  background:rgba(5,8,16,0.97);
+  backdrop-filter:blur(20px);
+  padding:2rem;
+  border-bottom:1px solid var(--border);
+  transform:translateY(-110%);
+  transition:transform .4s cubic-bezier(.4,0,.2,1);
+}
+.mobile-menu.open{transform:translateY(0);}
+.mobile-menu ul{list-style:none;display:flex;flex-direction:column;gap:1.5rem;}
+.mobile-menu a{color:var(--text);text-decoration:none;font-family:var(--ff-display);font-size:1.4rem;font-weight:600;letter-spacing:2px;}
+
+/* ===== SECTION BASE ===== */
+section{padding:100px 5%;position:relative;}
+.section-tag{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-family:var(--ff-mono);font-size:.75rem;
+  color:var(--blue);letter-spacing:3px;text-transform:uppercase;
+  margin-bottom:1rem;
+}
+.section-tag::before{content:'';width:24px;height:1px;background:var(--blue);}
+.section-title{
+  font-family:var(--ff-display);
+  font-size:clamp(2rem,5vw,3.5rem);
+  font-weight:700;
+  line-height:1.1;
+  letter-spacing:1px;
+  margin-bottom:1rem;
+}
+.section-title span{
+  background:linear-gradient(135deg,var(--blue),var(--red));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.section-sub{color:var(--muted);font-size:.95rem;max-width:520px;margin-bottom:3.5rem;}
+
+/* ===== HERO ===== */
+#hero{
+  min-height:100vh;padding:0 5%;
+  display:flex;align-items:center;justify-content:flex-start;
+  position:relative;overflow:hidden;
+}
+canvas#particles{position:absolute;inset:0;z-index:0;}
+.hero-grid-overlay{
+  position:absolute;inset:0;z-index:0;
+  background-image:
+    linear-gradient(rgba(0,200,255,0.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,200,255,0.04) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 40%,transparent 100%);
+}
+.hero-content{position:relative;z-index:2;max-width:760px;}
+.hero-label{
+  display:inline-flex;align-items:center;gap:.5rem;
+  border:1px solid rgba(0,200,255,0.3);
+  border-radius:2px;
+  padding:.3rem .9rem;
+  font-family:var(--ff-mono);font-size:.72rem;
+  color:var(--blue);letter-spacing:3px;text-transform:uppercase;
+  margin-bottom:1.5rem;
+  animation:fadeInDown .8s ease both;
+}
+.hero-label::before{content:'';width:6px;height:6px;background:var(--blue);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.7);}}
+
+.hero-name{
+  font-family:var(--ff-display);
+  font-size:clamp(3rem,9vw,7rem);
+  font-weight:700;
+  line-height:1;
+  letter-spacing:2px;
+  animation:fadeInUp .9s ease .2s both;
+}
+.hero-name .first{color:var(--text);}
+.hero-name .last{
+  background:linear-gradient(135deg,var(--blue) 0%,var(--red) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-typewriter{
+  font-family:var(--ff-mono);
+  font-size:clamp(.95rem,2vw,1.25rem);
+  color:var(--muted);
+  margin:1.2rem 0;
+  min-height:2em;
+  animation:fadeInUp .9s ease .4s both;
+}
+.hero-typewriter .cursor-blink{
+  display:inline-block;width:2px;height:1.1em;
+  background:var(--blue);margin-left:2px;vertical-align:middle;
+  animation:blink .7s step-end infinite;
+}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+.hero-bio{
+  color:var(--muted);max-width:580px;
+  font-size:clamp(.9rem,1.5vw,1rem);
+  margin-bottom:2.5rem;
+  animation:fadeInUp .9s ease .6s both;
+}
+.hero-ctas{
+  display:flex;flex-wrap:wrap;gap:1rem;
+  animation:fadeInUp .9s ease .8s both;
+}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.75rem 1.8rem;
+  background:linear-gradient(135deg,var(--blue2),var(--blue));
+  color:#fff;text-decoration:none;font-family:var(--ff-mono);
+  font-size:.8rem;letter-spacing:2px;text-transform:uppercase;
+  border:none;border-radius:2px;cursor:pointer;
+  position:relative;overflow:hidden;
+  transition:transform .2s,box-shadow .3s;
+  box-shadow:0 0 20px rgba(0,200,255,0.3);
+}
+.btn-primary::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,0.1),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 35px rgba(0,200,255,0.5);}
+.btn-primary:hover::after{opacity:1;}
+.btn-outline{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.75rem 1.8rem;
+  background:transparent;
+  color:var(--text);text-decoration:none;font-family:var(--ff-mono);
+  font-size:.8rem;letter-spacing:2px;text-transform:uppercase;
+  border:1px solid var(--border);border-radius:2px;cursor:pointer;
+  transition:border-color .3s,color .3s,box-shadow .3s;
+}
+.btn-outline:hover{border-color:var(--blue);color:var(--blue);box-shadow:0 0 20px rgba(0,200,255,0.15);}
+.btn-red{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.75rem 1.8rem;
+  background:transparent;
+  color:var(--red);text-decoration:none;font-family:var(--ff-mono);
+  font-size:.8rem;letter-spacing:2px;text-transform:uppercase;
+  border:1px solid var(--red);border-radius:2px;cursor:pointer;
+  transition:background .3s,box-shadow .3s;
+}
+.btn-red:hover{background:rgba(255,45,85,0.1);box-shadow:0 0 20px rgba(255,45,85,0.2);}
+
+.hero-stats{
+  display:flex;gap:2.5rem;margin-top:3rem;flex-wrap:wrap;
+  animation:fadeInUp .9s ease 1s both;
+}
+.hero-stat{text-align:left;}
+.hero-stat .num{
+  font-family:var(--ff-display);font-size:2rem;font-weight:700;
+  background:linear-gradient(135deg,var(--blue),var(--red));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-stat .label{font-family:var(--ff-mono);font-size:.7rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;}
+.stat-divider{width:1px;background:var(--border);align-self:stretch;}
+
+/* floating elements hero */
+.hero-deco{position:absolute;right:0;top:50%;transform:translateY(-50%);width:45%;max-width:500px;z-index:1;opacity:.15;pointer-events:none;display:none;}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInDown{from{opacity:0;transform:translateY(-20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-left{opacity:0;transform:translateX(-40px);transition:opacity .7s ease,transform .7s ease;}
+.reveal-left.visible{opacity:1;transform:translateX(0);}
+.reveal-right{opacity:0;transform:translateX(40px);transition:opacity .7s ease,transform .7s ease;}
+.reveal-right.visible{opacity:1;transform:translateX(0);}
+
+/* ===== GLASS CARD ===== */
+.glass-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:4px;
+  backdrop-filter:blur(12px);
+  transition:border-color .3s,box-shadow .3s,transform .3s;
+}
+.glass-card:hover{
+  border-color:rgba(0,200,255,0.25);
+  box-shadow:0 0 40px var(--card-glow-blue);
+  transform:translateY(-4px);
+}
+
+/* ===== ABOUT ===== */
+#about{background:var(--bg2);}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+.about-text p{color:var(--muted);margin-bottom:1.2rem;line-height:1.8;}
+.about-text strong{color:var(--text);}
+.education-card{
+  padding:1.5rem 1.8rem;
+  border-left:2px solid var(--blue);
+  background:var(--surface);
+  border-radius:0 4px 4px 0;
+  margin-bottom:1rem;
+}
+.education-card h4{font-family:var(--ff-display);font-size:1.1rem;font-weight:700;color:var(--text);letter-spacing:1px;}
+.education-card p{font-size:.85rem;color:var(--muted);}
+.education-card .badge{
+  display:inline-flex;align-items:center;gap:.3rem;
+  padding:.15rem .6rem;font-size:.7rem;
+  background:rgba(0,200,255,0.1);color:var(--blue);
+  border:1px solid rgba(0,200,255,0.2);border-radius:2px;
+  font-family:var(--ff-mono);margin-top:.5rem;
+}
+.about-interests{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem;}
+.interest-tag{
+  padding:.3rem .8rem;
+  background:var(--surface2);
+  border:1px solid var(--border);border-radius:2px;
+  font-size:.78rem;color:var(--muted);
+  font-family:var(--ff-mono);
+  transition:border-color .3s,color .3s;
+}
+.interest-tag:hover{border-color:var(--red);color:var(--red);}
+
+/* ===== SKILLS ===== */
+#skills{background:var(--bg);}
+.skills-layout{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;}
+.skill-group{padding:2rem;background:var(--surface);border:1px solid var(--border);border-radius:4px;transition:border-color .3s,box-shadow .3s;}
+.skill-group:hover{border-color:rgba(0,200,255,0.2);box-shadow:0 0 30px var(--card-glow-blue);}
+.skill-group-title{
+  font-family:var(--ff-display);font-size:1rem;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;color:var(--blue);
+  display:flex;align-items:center;gap:.6rem;margin-bottom:1.5rem;
+}
+.skill-group-title i{font-size:.9rem;}
+.skill-item{margin-bottom:1.2rem;}
+.skill-name{display:flex;justify-content:space-between;margin-bottom:.4rem;}
+.skill-name span:first-child{font-size:.85rem;color:var(--text);}
+.skill-name span:last-child{font-family:var(--ff-mono);font-size:.75rem;color:var(--muted);}
+.skill-bar-bg{height:3px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;}
+.skill-bar-fill{height:100%;border-radius:2px;width:0;transition:width 1.2s cubic-bezier(.4,0,.2,1) .2s;background:linear-gradient(90deg,var(--blue2),var(--blue));}
+.skill-bar-fill.red{background:linear-gradient(90deg,var(--red2),var(--red));}
+.badges-cloud{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.5rem;}
+.badge-pill{
+  padding:.3rem .8rem;font-size:.75rem;
+  background:var(--surface2);border:1px solid var(--border);border-radius:2px;
+  font-family:var(--ff-mono);color:var(--muted);
+  transition:border-color .3s,color .3s,box-shadow .3s;cursor:default;
+}
+.badge-pill:hover{border-color:var(--blue);color:var(--blue);box-shadow:0 0 10px rgba(0,200,255,0.15);}
+
+/* ===== PROJECTS ===== */
+#projects{background:var(--bg2);}
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem;}
+.project-card{
+  padding:2rem;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:4px;
+  transition:border-color .3s,box-shadow .3s,transform .3s;
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.project-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--blue),var(--red));
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .4s ease;
+}
+.project-card:hover{border-color:rgba(0,200,255,0.25);box-shadow:0 0 40px var(--card-glow-blue);transform:translateY(-6px);}
+.project-card:hover::before{transform:scaleX(1);}
+.project-num{
+  font-family:var(--ff-mono);font-size:.7rem;color:var(--blue);
+  letter-spacing:3px;margin-bottom:.8rem;
+}
+.project-title{font-family:var(--ff-display);font-size:1.2rem;font-weight:700;color:var(--text);letter-spacing:1px;margin-bottom:.8rem;}
+.project-desc{font-size:.875rem;color:var(--muted);line-height:1.7;flex:1;margin-bottom:1.2rem;}
+.project-meta{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.2rem;}
+.tech-tag{
+  padding:.2rem .6rem;font-size:.7rem;
+  background:rgba(0,200,255,0.06);
+  border:1px solid rgba(0,200,255,0.18);
+  color:var(--blue);border-radius:2px;
+  font-family:var(--ff-mono);
+}
+.project-date{font-family:var(--ff-mono);font-size:.7rem;color:var(--muted);margin-top:auto;}
+.project-points{list-style:none;margin-bottom:1rem;}
+.project-points li{
+  font-size:.82rem;color:var(--muted);padding:.2rem 0 .2rem 1rem;
+  position:relative;line-height:1.6;
+}
+.project-points li::before{content:'▸';position:absolute;left:0;color:var(--blue);font-size:.7rem;}
+
+/* ===== EXPERIENCE ===== */
+#experience{background:var(--bg);}
+.timeline{position:relative;padding-left:40px;}
+.timeline::before{
+  content:'';position:absolute;left:12px;top:8px;bottom:8px;width:1px;
+  background:linear-gradient(180deg,var(--blue),var(--red),transparent);
+}
+.timeline-item{
+  position:relative;margin-bottom:2.5rem;
+  padding:1.8rem;
+  background:var(--surface);border:1px solid var(--border);border-radius:4px;
+  transition:border-color .3s,box-shadow .3s;
+}
+.timeline-item:hover{border-color:rgba(0,200,255,0.25);box-shadow:0 0 30px var(--card-glow-blue);}
+.timeline-dot{
+  position:absolute;left:-34px;top:1.8rem;
+  width:12px;height:12px;border-radius:50%;
+  background:var(--blue);border:2px solid var(--bg2);
+  box-shadow:0 0 12px var(--blue);
+}
+.timeline-dot.red{background:var(--red);box-shadow:0 0 12px var(--red);}
+.timeline-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:.8rem;}
+.timeline-title{font-family:var(--ff-display);font-size:1.15rem;font-weight:700;color:var(--text);letter-spacing:1px;}
+.timeline-company{font-size:.88rem;color:var(--blue);font-weight:500;margin-top:.1rem;}
+.timeline-date{
+  font-family:var(--ff-mono);font-size:.72rem;color:var(--muted);
+  border:1px solid var(--border);padding:.2rem .6rem;border-radius:2px;
+  white-space:nowrap;
+}
+.timeline-points{list-style:none;margin-top:.8rem;}
+.timeline-points li{font-size:.88rem;color:var(--muted);padding:.25rem 0 .25rem 1.1rem;position:relative;line-height:1.65;}
+.timeline-points li::before{content:'→';position:absolute;left:0;color:var(--blue);font-size:.75rem;}
+
+/* ===== CERTS & ACHIEVEMENTS ===== */
+#achievements{background:var(--bg2);}
+.certs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;}
+.cert-card{
+  padding:1.8rem;background:var(--surface);border:1px solid var(--border);
+  border-radius:4px;transition:border-color .3s,box-shadow .3s,transform .3s;
+  display:flex;flex-direction:column;gap:.6rem;
+}
+.cert-card:hover{border-color:rgba(255,45,85,0.3);box-shadow:0 0 30px var(--card-glow-red);transform:translateY(-4px);}
+.cert-icon{font-size:1.5rem;color:var(--red);}
+.cert-title{font-family:var(--ff-display);font-size:1rem;font-weight:700;color:var(--text);letter-spacing:1px;line-height:1.3;}
+.cert-issuer{font-size:.82rem;color:var(--muted);}
+.cert-date{font-family:var(--ff-mono);font-size:.7rem;color:var(--blue);}
+
+.stats-row{display:flex;flex-wrap:wrap;gap:1.5rem;margin-top:3rem;}
+.stat-box{
+  flex:1;min-width:150px;text-align:center;
+  padding:2rem 1rem;background:var(--surface);border:1px solid var(--border);
+  border-radius:4px;transition:border-color .3s,box-shadow .3s;
+}
+.stat-box:hover{border-color:var(--blue);box-shadow:0 0 25px var(--card-glow-blue);}
+.stat-box .big-num{
+  font-family:var(--ff-display);font-size:2.5rem;font-weight:700;
+  background:linear-gradient(135deg,var(--blue),var(--red));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.stat-box .stat-label{font-family:var(--ff-mono);font-size:.7rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:.3rem;}
+
+/* ===== CONTACT ===== */
+#contact{background:var(--bg);position:relative;}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+.contact-info h3{font-family:var(--ff-display);font-size:1.5rem;font-weight:700;color:var(--text);letter-spacing:1px;margin-bottom:1.5rem;}
+.contact-item{
+  display:flex;align-items:center;gap:1rem;
+  padding:1rem 1.2rem;
+  background:var(--surface);border:1px solid var(--border);border-radius:4px;
+  margin-bottom:.8rem;text-decoration:none;
+  transition:border-color .3s,box-shadow .3s;
+}
+.contact-item:hover{border-color:var(--blue);box-shadow:0 0 20px var(--card-glow-blue);}
+.contact-item i{color:var(--blue);font-size:1rem;width:20px;text-align:center;}
+.contact-item span{font-size:.88rem;color:var(--text);}
+.contact-item span.label{font-family:var(--ff-mono);font-size:.7rem;color:var(--muted);display:block;}
+
+/* Contact form */
+.contact-form{display:flex;flex-direction:column;gap:1rem;}
+.form-group{display:flex;flex-direction:column;gap:.4rem;}
+.form-group label{font-family:var(--ff-mono);font-size:.72rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;}
+.form-group input,.form-group textarea{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:4px;padding:.8rem 1rem;
+  color:var(--text);font-family:var(--ff-body);font-size:.9rem;
+  outline:none;transition:border-color .3s,box-shadow .3s;resize:none;
+}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--blue);box-shadow:0 0 15px rgba(0,200,255,0.1);}
+.form-group textarea{min-height:120px;}
+.form-submit{
+  padding:.8rem 2rem;background:linear-gradient(135deg,var(--blue2),var(--blue));
+  color:#fff;border:none;border-radius:4px;cursor:pointer;
+  font-family:var(--ff-mono);font-size:.8rem;letter-spacing:2px;text-transform:uppercase;
+  transition:opacity .3s,transform .2s,box-shadow .3s;
+  box-shadow:0 0 20px rgba(0,200,255,0.2);
+}
+.form-submit:hover{opacity:.9;transform:translateY(-1px);box-shadow:0 0 30px rgba(0,200,255,0.4);}
+
+/* ===== FOOTER ===== */
+footer{
+  background:var(--bg2);
+  border-top:1px solid var(--border);
+  padding:2rem 5%;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:1rem;
+}
+footer p{font-family:var(--ff-mono);font-size:.75rem;color:var(--muted);}
+footer p span{color:var(--blue);}
+.social-links{display:flex;gap:1rem;}
+.social-link{
+  width:36px;height:36px;border-radius:4px;
+  border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--muted);text-decoration:none;font-size:.9rem;
+  transition:border-color .3s,color .3s,box-shadow .3s;
+}
+.social-link:hover{border-color:var(--blue);color:var(--blue);box-shadow:0 0 15px rgba(0,200,255,0.2);}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1024px){
+  .about-grid,.contact-grid{grid-template-columns:1fr;}
+}
+@media(max-width:768px){
+  .nav-links{display:none;}
+  .hamburger{display:flex;}
+  .mobile-menu{display:block;}
+  section{padding:80px 6%;}
+  .hero-stats{gap:1.5rem;}
+  .stat-divider{display:none;}
+  .hero-ctas{flex-direction:column;align-items:flex-start;}
+  .btn-primary,.btn-outline,.btn-red{width:auto;}
+}
+@media(max-width:480px){
+  .timeline{padding-left:28px;}
+  .timeline-dot{left:-22px;}
+  .timeline::before{left:6px;}
+}
+
+/* ===== LOADING SCREEN ===== */
+#loader{
+  position:fixed;inset:0;z-index:99999;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.5rem;
+  transition:opacity .6s ease,visibility .6s ease;
+}
+#loader.hide{opacity:0;visibility:hidden;}
+.loader-name{
+  font-family:var(--ff-display);font-size:2rem;font-weight:700;letter-spacing:4px;
+  background:linear-gradient(135deg,var(--blue),var(--red));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.loader-bar-bg{width:200px;height:2px;background:var(--surface2);border-radius:2px;overflow:hidden;}
+.loader-bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--red));border-radius:2px;transition:width .05s linear;}
+
+/* active nav highlight */
+.nav-links a.active{color:var(--blue);}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div id="loader">
+  <div class="loader-name">S. MISRA</div>
+  <div class="loader-bar-bg"><div class="loader-bar-fill" id="loader-fill"></div></div>
+  <p style="font-family:var(--ff-mono);font-size:.7rem;color:var(--muted);letter-spacing:3px;">INITIALIZING</p>
+</div>
+
+<!-- CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div id="mouse-glow"></div>
+<div id="progress-bar"></div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="logo">SM/</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#achievements">Certs</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="#hero" onclick="closeMenu()">Home</a></li>
+    <li><a href="#about" onclick="closeMenu()">About</a></li>
+    <li><a href="#skills" onclick="closeMenu()">Skills</a></li>
+    <li><a href="#projects" onclick="closeMenu()">Projects</a></li>
+    <li><a href="#experience" onclick="closeMenu()">Experience</a></li>
+    <li><a href="#achievements" onclick="closeMenu()">Certs</a></li>
+    <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
+  </ul>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="particles"></canvas>
+  <div class="hero-grid-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-label"><span></span>Available for Opportunities 2026</div>
+    <div class="hero-name">
+      <div class="first">SULAKSHYA</div>
+      <div class="last">MISRA</div>
+    </div>
+    <div class="hero-typewriter">
+      <span id="typed-text"></span><span class="cursor-blink"></span>
+    </div>
+    <p class="hero-bio">
+      Mathematics graduate from BITS Pilani with deep expertise in quantitative modeling, statistical analysis,
+      and data-driven decision making. I turn complex datasets into clear, actionable intelligence.
+    </p>
+    <div class="hero-ctas">
+      <a href="#projects" class="btn-primary"><i class="fa fa-code"></i>View Projects</a>
+      <a href="#contact" class="btn-outline"><i class="fa fa-envelope"></i>Contact Me</a>
+      <a href="mailto:sulakshya.misra5@gmail.com" class="btn-red"><i class="fa fa-file-alt"></i>Get Resume</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">2+</div><div class="label">Internships</div></div>
+      <div class="stat-divider"></div>
+      <div class="hero-stat"><div class="num">3+</div><div class="label">Research Projects</div></div>
+      <div class="stat-divider"></div>
+      <div class="hero-stat"><div class="num">93.2%</div><div class="label">Class XII Score</div></div>
+      <div class="stat-divider"></div>
+      <div class="hero-stat"><div class="num">BITS</div><div class="label">Pilani</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-tag">01 — About Me</div>
+  <h2 class="section-title">The <span>Quantitative</span> Mind</h2>
+  <p class="section-sub">Merging mathematical rigor with real-world data strategy.</p>
+  <div class="about-grid">
+    <div class="about-text reveal-left">
+      <p>I'm a <strong>Mathematics (Hons.) graduate</strong> from Birla Institute of Technology & Science, Pilani — one of India's most competitive technical universities — with a <strong>minor in Finance</strong>. My academic training bridges pure mathematics and applied financial modeling.</p>
+      <p>My work lives at the intersection of <strong>quantitative analysis, predictive modeling, and strategic data insights</strong>. I've worked with industry leaders like Ultratech (Aditya Birla Group) and BGIIES to build models that directly influenced executive decisions.</p>
+      <p>Outside academics, I've led flagship gaming events at BITS Pilani's annual technical festival <strong>APOGEE</strong>, manage a disciplined fitness routine, and am developing a keen interest in cue sports — particularly snooker, where I enjoy applying geometric thinking to the game.</p>
+      <div class="about-interests">
+        <span class="interest-tag">Quantitative Finance</span>
+        <span class="interest-tag">Statistical Modeling</span>
+        <span class="interest-tag">Risk Analytics</span>
+        <span class="interest-tag">Data Visualization</span>
+        <span class="interest-tag">Operations Research</span>
+        <span class="interest-tag">Portfolio Theory</span>
+        <span class="interest-tag">Cue Sports</span>
+        <span class="interest-tag">Fitness & Training</span>
+      </div>
+    </div>
+    <div class="reveal-right">
+      <div class="education-card glass-card" style="margin-bottom:1rem;">
+        <div class="badge">M.Sc. (Hons.) Mathematics</div>
+        <h4 style="margin-top:.7rem;">Birla Institute of Technology & Science</h4>
+        <p>Pilani Campus &nbsp;·&nbsp; Finance Minor</p>
+        <p style="margin-top:.4rem;color:var(--blue);font-family:var(--ff-mono);font-size:.75rem;">2022 – 2026 (Graduating)</p>
+        <p style="font-size:.8rem;color:var(--muted);margin-top:.5rem;">Coursework: Probability & Statistics, Financial Risk Analytics, Derivatives & Risk Management, Numerical Methods for PDEs, Operations Research</p>
+      </div>
+      <div class="education-card glass-card" style="border-left-color:var(--red);">
+        <div class="badge" style="background:rgba(255,45,85,0.08);color:var(--red);border-color:rgba(255,45,85,0.2);">Class XII</div>
+        <h4 style="margin-top:.7rem;">Birla School Pilani</h4>
+        <p>CBSE Board &nbsp;·&nbsp; 2020 – 2022</p>
+        <p style="margin-top:.4rem;color:var(--red);font-family:var(--ff-mono);font-size:.75rem;">93.2%</p>
+      </div>
+      <div style="margin-top:1.5rem;padding:1.2rem 1.4rem;background:var(--surface);border:1px solid var(--border);border-radius:4px;">
+        <p style="font-family:var(--ff-mono);font-size:.7rem;color:var(--muted);letter-spacing:2px;margin-bottom:.8rem;">APOGEE COORDINATOR</p>
+        <p style="font-size:.85rem;color:var(--text);">Gaming Club, BITS Pilani &nbsp;<span style="color:var(--muted);">Jul 2024 – Apr 2025</span></p>
+        <p style="font-size:.82rem;color:var(--muted);margin-top:.4rem;">Led <em>Armageddon</em>, a flagship gaming event under APOGEE — BITS Pilani's prestigious annual technical festival.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-tag">02 — Expertise</div>
+  <h2 class="section-title">Skills & <span>Capabilities</span></h2>
+  <p class="section-sub">A technical toolkit built through rigorous coursework and industry application.</p>
+  <div class="skills-layout">
+    <!-- Programming -->
+    <div class="skill-group reveal">
+      <div class="skill-group-title"><i class="fas fa-code"></i>Programming & Data</div>
+      <div class="skill-item">
+        <div class="skill-name"><span>Python</span><span>Advanced</span></div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" data-w="85"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name"><span>MySQL</span><span>Proficient</span></div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" data-w="75"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name"><span>Advanced Excel</span><span>Expert</span></div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" data-w="90"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name"><span>Power BI</span><span>Proficient</span></div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" data-w="70"></div></div>
+      </div>
+    </div>
+    <!-- Analytical Methods -->
+    <div class="skill-group reveal">
+      <div class="skill-group-title"><i class="fas fa-chart-line"></i>Analytical Methods</div>
+      <div class="skill-item">
+        <div class="skill-name"><span>Predictive Modeling</span><span>Advanced</span></div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill red" data-w="88"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name"><span>Regression Analysis</span><span>Advanced</span></div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill red" data-w="85"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name"><span>Risk Analysis</span><span>Proficient</span></div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill red" data-w="82"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name"><span>Optimization</span><span>Proficient</span></div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill red" data-w="78"></div></div>
+      </div>
+    </div>
+    <!-- Finance & Quant -->
+    <div class="skill-group reveal">
+      <div class="skill-group-title"><i class="fas fa-university"></i>Finance & Quant</div>
+      <div class="badges-cloud">
+        <span class="badge-pill">Portfolio Theory</span>
+        <span class="badge-pill">Sharpe Ratio</span>
+        <span class="badge-pill">WACC</span>
+        <span class="badge-pill">CAPM</span>
+        <span class="badge-pill">Derivatives</span>
+        <span class="badge-pill">Valuation</span>
+        <span class="badge-pill">DCF</span>
+        <span class="badge-pill">Capital Structure</span>
+        <span class="badge-pill">Sensitivity Analysis</span>
+        <span class="badge-pill">Time-Series</span>
+        <span class="badge-pill">Scenario Modeling</span>
+        <span class="badge-pill">Financial Engineering</span>
+      </div>
+    </div>
+    <!-- Tools & Soft Skills -->
+    <div class="skill-group reveal">
+      <div class="skill-group-title"><i class="fas fa-tools"></i>Tools & Presentation</div>
+      <div class="badges-cloud">
+        <span class="badge-pill">Microsoft Excel</span>
+        <span class="badge-pill">PowerPoint</span>
+        <span class="badge-pill">Power BI</span>
+        <span class="badge-pill">MySQL Workbench</span>
+        <span class="badge-pill">Google Colab</span>
+        <span class="badge-pill">Executive Reporting</span>
+        <span class="badge-pill">Data Storytelling</span>
+        <span class="badge-pill">Leadership</span>
+        <span class="badge-pill">Event Management</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-tag">03 — Projects</div>
+  <h2 class="section-title">Research & <span>Projects</span></h2>
+  <p class="section-sub">Quantitative models built to solve real financial and operational problems.</p>
+  <div class="projects-grid">
+
+    <div class="project-card reveal">
+      <div class="project-num">PROJECT — 01</div>
+      <div class="project-title">Valuation & Risk Modeling</div>
+      <ul class="project-points">
+        <li>Conducted multi-horizon time-series analysis of stock volatility using historical market data.</li>
+        <li>Built financial models to estimate cost of capital and enterprise valuation (DCF, CAPM).</li>
+        <li>Performed peer-group comparison to support capital structure and investment decisions.</li>
+      </ul>
+      <div class="project-meta">
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">Excel</span>
+        <span class="tech-tag">DCF</span>
+        <span class="tech-tag">CAPM</span>
+        <span class="tech-tag">Time-Series</span>
+      </div>
+      <div class="project-date"><i class="far fa-calendar-alt" style="color:var(--blue);margin-right:.3rem;"></i>Jan 2025 – May 2025</div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">PROJECT — 02</div>
+      <div class="project-title">Security Analysis & Portfolio Management</div>
+      <ul class="project-points">
+        <li>Constructed an optimized multi-asset portfolio using Markowitz mean-variance framework.</li>
+        <li>Evaluated performance against market benchmarks via Sharpe ratio and variance analysis.</li>
+        <li>Interpreted findings to assess portfolio efficiency and behavioral market patterns.</li>
+      </ul>
+      <div class="project-meta">
+        <span class="tech-tag">Portfolio Theory</span>
+        <span class="tech-tag">Sharpe Ratio</span>
+        <span class="tech-tag">Markowitz</span>
+        <span class="tech-tag">Python</span>
+      </div>
+      <div class="project-date"><i class="far fa-calendar-alt" style="color:var(--blue);margin-right:.3rem;"></i>Aug 2024 – Dec 2024</div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">PROJECT — 03 &nbsp;<span style="font-size:.6rem;background:rgba(0,200,255,0.1);color:var(--blue);border:1px solid rgba(0,200,255,0.3);padding:.1rem .4rem;border-radius:2px;">ONGOING</span></div>
+      <div class="project-title">Network Congestion Modeling & Optimization</div>
+      <ul class="project-points">
+        <li>Developed a dynamic queueing-network simulator for complex system congestion analysis.</li>
+        <li>Incorporated real-world variables: balking, reneging, and server vacation behaviors.</li>
+        <li>Applied operations research techniques to derive optimal resource allocation strategies.</li>
+      </ul>
+      <div class="project-meta">
+        <span class="tech-tag">Operations Research</span>
+        <span class="tech-tag">Queueing Theory</span>
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">Simulation</span>
+        <span class="tech-tag">Optimization</span>
+      </div>
+      <div class="project-date"><i class="far fa-calendar-alt" style="color:var(--blue);margin-right:.3rem;"></i>Jan 2026 – Present</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-tag">04 — Experience</div>
+  <h2 class="section-title">Work <span>Experience</span></h2>
+  <p class="section-sub">Industry roles where analysis met real executive decision-making.</p>
+  <div class="timeline">
+
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-header">
+        <div>
+          <div class="timeline-title">Data Analyst Intern</div>
+          <div class="timeline-company">BGIIES &nbsp;·&nbsp; Bangalore</div>
+        </div>
+        <div class="timeline-date">Jul 2025 – Dec 2025</div>
+      </div>
+      <ul class="timeline-points">
+        <li>Analyzed startup and AI ecosystem data to deliver strategic, actionable insights to C-suite executives.</li>
+        <li>Engineered a data-driven allocation model for a booking system, significantly improving resource utilization.</li>
+        <li>Visualized operational data to track budgets and performance metrics across 100+ attendee forums.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-dot red"></div>
+      <div class="timeline-header">
+        <div>
+          <div class="timeline-title">Data Analyst Intern</div>
+          <div class="timeline-company">UltraTech Cement &nbsp;·&nbsp; Aditya Birla Group</div>
+        </div>
+        <div class="timeline-date">May 2024 – Jul 2024</div>
+      </div>
+      <ul class="timeline-points">
+        <li>Built an Excel-based predictive model analyzing complex process variables to forecast production outcomes.</li>
+        <li>Performed sensitivity analysis on energy metrics and presented data-driven findings to senior leadership.</li>
+        <li>Developed a data model to analyze and optimize energy consumption across production workflows.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-dot" style="background:var(--muted);box-shadow:none;"></div>
+      <div class="timeline-header">
+        <div>
+          <div class="timeline-title">APOGEE Coordinator</div>
+          <div class="timeline-company">Gaming Club, BITS Pilani</div>
+        </div>
+        <div class="timeline-date">Jul 2024 – Apr 2025</div>
+      </div>
+      <ul class="timeline-points">
+        <li>Organized <em>Armageddon</em> — a flagship gaming competition under APOGEE, BITS Pilani's annual technical festival.</li>
+        <li>Managed end-to-end event logistics, participant coordination, and competitive game management.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <div class="section-tag">05 — Certifications</div>
+  <h2 class="section-title">Credentials & <span>Certifications</span></h2>
+  <p class="section-sub">Formal recognition from world-class institutions.</p>
+  <div class="certs-grid">
+    <div class="cert-card reveal glass-card">
+      <div class="cert-icon"><i class="fab fa-google"></i></div>
+      <div class="cert-title">Crash Course on Python</div>
+      <div class="cert-issuer">Google · Coursera</div>
+      <div class="cert-date">September 2025</div>
+    </div>
+    <div class="cert-card reveal glass-card">
+      <div class="cert-icon" style="color:var(--blue);"><i class="fas fa-landmark"></i></div>
+      <div class="cert-title">Introduction to Financial Engineering & Risk Management</div>
+      <div class="cert-issuer">Columbia University · edX</div>
+      <div class="cert-date">February 2026</div>
+    </div>
+    <div class="cert-card reveal glass-card" style="justify-content:center;">
+      <div class="cert-icon" style="color:var(--muted);font-size:1.2rem;"><i class="fas fa-plus-circle"></i></div>
+      <div class="cert-title" style="color:var(--muted);">More On the Way</div>
+      <div class="cert-issuer">Continuously upskilling in quantitative finance and data science.</div>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-box reveal"><div class="big-num" data-count="2">0</div><div class="stat-label">Internships Completed</div></div>
+    <div class="stat-box reveal"><div class="big-num" data-count="3">0</div><div class="stat-label">Major Projects</div></div>
+    <div class="stat-box reveal"><div class="big-num" data-count="2">0</div><div class="stat-label">Certifications</div></div>
+    <div class="stat-box reveal"><div class="big-num" data-count="4">0</div><div class="stat-label">Years at BITS Pilani</div></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-tag">06 — Get In Touch</div>
+  <h2 class="section-title">Let's <span>Connect</span></h2>
+  <p class="section-sub">Open to full-time roles, internships, and interesting collaborations in quant finance, data science, and analytics.</p>
+  <div class="contact-grid">
+    <div class="contact-info reveal-left">
+      <h3>Reach Out Directly</h3>
+      <a href="mailto:sulakshya.misra5@gmail.com" class="contact-item">
+        <i class="fas fa-envelope"></i>
+        <div><span class="label">Email</span><span>sulakshya.misra5@gmail.com</span></div>
+      </a>
+      <a href="tel:+919460503023" class="contact-item">
+        <i class="fas fa-phone"></i>
+        <div><span class="label">Phone</span><span>+91 94605 03023</span></div>
+      </a>
+      <a href="https://linkedin.com/in/sulakshyamisra" target="_blank" class="contact-item">
+        <i class="fab fa-linkedin"></i>
+        <div><span class="label">LinkedIn</span><span>linkedin.com/in/sulakshyamisra</span></div>
+      </a>
+      <a href="#" class="contact-item">
+        <i class="fas fa-map-marker-alt"></i>
+        <div><span class="label">Location</span><span>Pilani, Rajasthan, India</span></div>
+      </a>
+      <div style="margin-top:2rem;padding:1.2rem 1.4rem;background:var(--surface);border:1px solid rgba(0,200,255,0.15);border-radius:4px;">
+        <p style="font-family:var(--ff-mono);font-size:.72rem;color:var(--blue);letter-spacing:2px;margin-bottom:.4rem;">STATUS</p>
+        <p style="font-size:.88rem;color:var(--text);">🟢 Open to Opportunities — Graduating May 2026</p>
+      </div>
+    </div>
+    <div class="reveal-right">
+      <div class="contact-form">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" placeholder="Full Name"/>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="you@example.com"/>
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea placeholder="I'd love to discuss an opportunity with you..."></textarea>
+        </div>
+        <button class="form-submit" onclick="handleContact()"><i class="fas fa-paper-plane" style="margin-right:.5rem;"></i>Send Message</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Designed & built with precision &nbsp;·&nbsp; <span>Sulakshya Misra</span> &nbsp;·&nbsp; 2026</p>
+  <div class="social-links">
+    <a href="https://linkedin.com/in/sulakshyamisra" target="_blank" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+    <a href="mailto:sulakshya.misra5@gmail.com" class="social-link"><i class="fas fa-envelope"></i></a>
+  </div>
+</footer>
+
+<script>
+/* ===== LOADER ===== */
+const fill=document.getElementById('loader-fill');
+const loader=document.getElementById('loader');
+let w=0;
+const lt=setInterval(()=>{
+  w+=Math.random()*12+4;
+  if(w>=100){w=100;clearInterval(lt);setTimeout(()=>{loader.classList.add('hide');},300);}
+  fill.style.width=w+'%';
+},80);
+
+/* ===== CURSOR ===== */
+const cur=document.getElementById('cursor');
+const ring=document.getElementById('cursor-ring');
+const glow=document.getElementById('mouse-glow');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+  glow.style.left=mx+'px';glow.style.top=my+'px';
+});
+function animRing(){
+  rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+}animRing();
+document.querySelectorAll('a,button,.cert-card,.project-card,.skill-group').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='56px';ring.style.height='56px';ring.style.borderColor='rgba(255,45,85,0.6)';});
+  el.addEventListener('mouseleave',()=>{ring.style.width='36px';ring.style.height='36px';ring.style.borderColor='rgba(0,200,255,0.5)';});
+});
+
+/* ===== SCROLL PROGRESS ===== */
+window.addEventListener('scroll',()=>{
+  const scrolled=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
+  document.documentElement.style.setProperty('--scroll-progress',scrolled+'%');
+  // Navbar
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50);
+  // Active nav
+  const sects=['hero','about','skills','projects','experience','achievements','contact'];
+  sects.forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    const top=el.getBoundingClientRect().top;
+    const link=document.querySelector(`.nav-links a[href="#${id}"]`);
+    if(link){link.classList.toggle('active',top<=100&&top>-el.offsetHeight+100);}
+  });
+});
+
+/* ===== REVEAL OBSERVER ===== */
+const revObserver=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      // Skill bars
+      e.target.querySelectorAll('.skill-bar-fill').forEach(bar=>{
+        bar.style.width=bar.dataset.w+'%';
+      });
+      // Count-up
+      e.target.querySelectorAll('[data-count]').forEach(el=>{
+        const target=parseInt(el.dataset.count);
+        let current=0;
+        const step=setInterval(()=>{
+          current++;if(current>=target){current=target;clearInterval(step);}
+          el.textContent=current;
+        },80);
+      });
+    }
+  });
+},{threshold:.15});
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el=>revObserver.observe(el));
+
+/* Also observe skill groups for bars */
+document.querySelectorAll('.skill-group').forEach(el=>revObserver.observe(el));
+
+/* ===== TYPING ANIMATION ===== */
+const roles=[
+  'Quantitative Analyst',
+  'Data Scientist',
+  'Financial Modeler',
+  'Risk Analyst',
+  'Math Graduate @ BITS Pilani',
+  'Operations Research Enthusiast'
+];
+let rIdx=0,cIdx=0,deleting=false;
+const typedEl=document.getElementById('typed-text');
+function type(){
+  const current=roles[rIdx];
+  if(deleting){
+    typedEl.textContent=current.substring(0,cIdx-1);
+    cIdx--;
+    if(cIdx===0){deleting=false;rIdx=(rIdx+1)%roles.length;setTimeout(type,400);return;}
+    setTimeout(type,35);
+  }else{
+    typedEl.textContent=current.substring(0,cIdx+1);
+    cIdx++;
+    if(cIdx===current.length){deleting=true;setTimeout(type,1800);return;}
+    setTimeout(type,75);
+  }
+}
+setTimeout(type,1200);
+
+/* ===== PARTICLES ===== */
+const canvas=document.getElementById('particles');
+const ctx=canvas.getContext('2d');
+function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+resize();window.addEventListener('resize',resize);
+const BLUE='rgba(0,200,255,';const RED='rgba(255,45,85,';
+class Particle{
+  constructor(){this.reset();}
+  reset(){
+    this.x=Math.random()*canvas.width;
+    this.y=Math.random()*canvas.height;
+    this.vx=(Math.random()-.5)*.3;
+    this.vy=(Math.random()-.5)*.3;
+    this.r=Math.random()*1.5+.5;
+    this.color=Math.random()>.5?BLUE:RED;
+    this.alpha=Math.random()*.5+.1;
+  }
+  update(){
+    this.x+=this.vx;this.y+=this.vy;
+    if(this.x<0||this.x>canvas.width||this.y<0||this.y>canvas.height)this.reset();
+  }
+  draw(){
+    ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+    ctx.fillStyle=this.color+this.alpha+')';ctx.fill();
+  }
+}
+const particles=Array.from({length:80},()=>new Particle());
+function drawLines(){
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      const dx=particles[i].x-particles[j].x;
+      const dy=particles[i].y-particles[j].y;
+      const d=Math.sqrt(dx*dx+dy*dy);
+      if(d<120){
+        const alpha=(.8-d/120)*.15;
+        ctx.strokeStyle='rgba(0,200,255,'+alpha+')';
+        ctx.lineWidth=.5;
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x,particles[i].y);
+        ctx.lineTo(particles[j].x,particles[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+}
+function animParticles(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p=>{p.update();p.draw();});
+  drawLines();
+  requestAnimationFrame(animParticles);
+}animParticles();
+
+/* ===== HAMBURGER ===== */
+function toggleMenu(){
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+function closeMenu(){
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('mobileMenu').classList.remove('open');
+}
+
+/* ===== CONTACT FORM ===== */
+function handleContact(){
+  const btn=document.querySelector('.form-submit');
+  btn.textContent='Message Sent ✓';
+  btn.style.background='linear-gradient(135deg,#00a84e,#00c86a)';
+  setTimeout(()=>{btn.innerHTML='<i class="fas fa-paper-plane" style="margin-right:.5rem;"></i>Send Message';btn.style.background='';},3000);
+}
+</script>
+</body>
+</html>
