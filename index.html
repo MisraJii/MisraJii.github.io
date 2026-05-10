@@ -989,20 +989,23 @@ footer p span{color:var(--blue);}
       </div>
     </div>
     <div class="reveal-right">
-      <div class="contact-form">
+      <form action="https://formspree.io/f/mbdwpazl" method="POST" class="contact-form">
+        <input type="hidden" name="_next" value="https://misrajii.github.io/#contact">
+        
         <div class="form-group">
           <label>Your Name</label>
-          <input type="text" placeholder="Full Name"/>
+          <input type="text" name="name" placeholder="Full Name" required/>
         </div>
         <div class="form-group">
           <label>Email Address</label>
-          <input type="email" placeholder="you@example.com"/>
+          <input type="email" name="email" placeholder="you@example.com" required/>
         </div>
         <div class="form-group">
           <label>Message</label>
-          <textarea placeholder="I'd love to discuss an opportunity with you..."></textarea>
+          <textarea name="message" placeholder="I'd love to discuss an opportunity with you..." required></textarea>
         </div>
-        <button class="form-submit" onclick="handleContact()"><i class="fas fa-paper-plane" style="margin-right:.5rem;"></i>Send Message</button>
+        <button type="submit" class="form-submit"><i class="fas fa-paper-plane" style="margin-right:.5rem;"></i>Send Message</button>
+      </form>
       </div>
     </div>
   </div>
@@ -1180,13 +1183,7 @@ function closeMenu(){
   document.getElementById('mobileMenu').classList.remove('open');
 }
 
-/* ===== CONTACT FORM ===== */
-function handleContact(){
-  const btn=document.querySelector('.form-submit');
-  btn.textContent='Message Sent ✓';
-  btn.style.background='linear-gradient(135deg,#00a84e,#00c86a)';
-  setTimeout(()=>{btn.innerHTML='<i class="fas fa-paper-plane" style="margin-right:.5rem;"></i>Send Message';btn.style.background='';},3000);
-}
+
 </script>
 </body>
 </html>
